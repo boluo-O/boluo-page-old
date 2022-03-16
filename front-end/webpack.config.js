@@ -45,6 +45,17 @@ module.exports = {
 			config: [__filename],
 		}
 	},
+	resolve: {
+		extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],
+		alias: {
+			'Src': path.resolve(__dirname, './src'),
+			'Public': path.resolve(__dirname, './public'),
+			'Assets': path.resolve(__dirname, './src/assets'),
+			'Components': path.resolve(__dirname, './src/components'),
+			'Utils': path.resolve(__dirname, './src/utils'),
+			'Services': path.resolve(__dirname, './src/services'),
+		},
+	},
 	module: {
 		rules: [
 			{

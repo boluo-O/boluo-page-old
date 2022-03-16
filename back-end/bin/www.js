@@ -1,17 +1,19 @@
 // 引入模块
 const app = require('../app')
 const http = require('http')
-const debug = require('debug')('rental-map:server');
+const debug = require('debug')('rental-map:server')
+
 // 设置端口
 app.set('port', 80)
 
 // 创建 HTTP 服务器
-let server = http.createServer(app)
+const server = http.createServer(app)
 
 // 服务器监听端口
-server.listen(80, '127.0.0.1', ()  => {
+server.listen(80, '127.0.0.1', () => {
     console.log('address', '\x1B[34m\033[1m', `http://${server.address().address}:${server.address().port}`)
 })
+
 // 服务器监听事件
 server.on('listening', () => {
     var addr = server.address()

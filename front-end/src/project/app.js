@@ -1,13 +1,11 @@
-import { useState } from 'react'
-
-import SearchInput from './components/search-input'
+import { Search } from 'Components'
 import './app.less'
 
 const App = () => {
 
     return (
         <div className='app'>
-            <SearchInput />
+            <Search />
         </div>
     )
 }
