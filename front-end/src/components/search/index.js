@@ -72,14 +72,15 @@ const Search = () => {
         }
     }, [activeEngineIndex, inputValue])
 
-
     return (
         <div className='search'>
             <div className='search-engine-list'>
                 {
                     searchEngineList.map((item, index) => (
                         // <div className={`search-engine-item ${activeEngineIndex === index ? 'active' : ''}`} key={index}>{item.name}</div>
-                        <div className={`search-engine-item ${activeEngineIndex === index ? 'active' : ''}`} key={index}><img src={require(`Assets/images/${item.img}`)}></img></div>
+                        <div className={`search-engine-item ${activeEngineIndex === index ? 'active' : ''}`} key={index}>
+                            <div><img src={require(`Assets/images/${item.img}`)} /></div>
+                        </div>
                     ))
                 }
             </div>
