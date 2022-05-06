@@ -1,4 +1,4 @@
-import { Search } from 'Components'
+import { Search, Todo } from '@Components'
 import './app.less'
 
 const App = () => {
@@ -6,6 +6,7 @@ const App = () => {
     return (
         <div className='app'>
             <Search />
+            <Todo />
         </div>
     )
 }

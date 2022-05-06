@@ -1,4 +1,4 @@
-import Ajax from '../utils/ajax'
+import Ajax from '@Utils/ajax'
 
 let ajax = new Ajax()
 let baseUrl = 'http://127.0.0.1:80/'

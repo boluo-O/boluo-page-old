@@ -79,7 +79,7 @@ const Search = () => {
                     searchEngineList.map((item, index) => (
                         // <div className={`search-engine-item ${activeEngineIndex === index ? 'active' : ''}`} key={index}>{item.name}</div>
                         <div className={`search-engine-item ${activeEngineIndex === index ? 'active' : ''}`} key={index}>
-                            <div><img src={require(`Assets/images/${item.img}`)} /></div>
+                            <div><img onClick={() => setActiveEngineIndex(index)} src={require(`@Assets/images/${item.img}`)} /></div>
                         </div>
                     ))
                 }
