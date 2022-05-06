@@ -1,7 +1,70 @@
 .todo-box {
-    // background: red;
     border: 1px solid wheat;
     border-radius: 20px;
     width: 80%;
     height: 600px;
+    display: flex;
+    margin: 20px auto;
+    padding: 14px 12px 14px 12px;
+
+    .todo-list {
+        width: 100%;
+
+        .todo-item {
+            height: 50px;
+            // width: 100%;
+            display: flex;
+            align-items: center;
+            font-size: 18px;
+            color: white;
+            background: wheat;
+            margin-bottom: 1px;
+
+            .index {
+                height: 50px;
+                width: 50px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .type {
+                height: 50px;
+                margin-right: 18px;
+                // margin-right: 20px;
+                width: 80px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .content {
+                flex-grow: 1;
+            }
+
+            .opreate {
+                // width: 100px;
+            }
+        }
+
+        .todo-item-TODO {
+            background: wheat;
+        }
+
+        .todo-item-READ {
+            background: #1eb51e61;
+        }
+
+        .todo-item-STUDY {
+            background: #73c2e7;
+        }
+
+        .todo-item-SOLVE {
+            background: rgba(0, 0, 0, 0.637);
+        }
+
+        .todo-item-IDEA {
+            background: #b51e2c61;
+        }
+    }
 }
