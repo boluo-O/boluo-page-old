@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react'
 
-import { EditableSpan } from '@Components'
-import Tick from '@Assets/images/tick.svg'
+import { EditableSpan, Icon, Modal } from '@Components'
+import Checked from '@Assets/icons/Checked.svg'
+import Unchecked from '@Assets/icons/Unchecked.svg'
+import Delete from '@Assets/icons/Delete.svg'
 import todo from '@Service/todo'
 import './style.less'
-console.log('Tick', Tick)
+
 const Todo = () => {
     const [todoData, setTodoData] = useState([])
+    const [isfinished, setIsfinished] = useState(false)
 
     const getTodo = async () => {
         const resData = await todo.all()
@@ -53,26 +56,34 @@ const Todo = () => {
                         <input />
                     </div> */}
             </div>
+            <div className='todo-total-info'>
+                <div>已完成 1 个 </div>
+                <div>未完成 1 个 </div>
+                <a onClick={() => { }}>添加</a>
+            </div>
             <div className='todo-list'>
                 {todoData.map((item, index) => {
                     const todoType = todoTypeEnume[item.todoType]
                     return (
                         <div className={`todo-item todo-item-${todoType}`} key={index}>
-                            {/* <div className='index'>{index}</div> */}
                             {renderTodoType[todoType]}
                             <div className='content'>{item.todoText || ''}</div>
-                            {/* <EditableSpan value={item.todoText || ''} /> */}
                             <div className='opreate'>
-                                <Tick />
-                                <img src={require(`@Assets/images/tick.svg`)} />
-                                <input type='checkbox' id='cbox2' value='second_checkbox' checked='checked' />                                        {/* <button>完成</button> */}
-                                <button>删除</button>
-                                {/* <button>时钟</button> */}
+                                <div>完成</div>
                             </div>
                         </div>
                     )
                 })}
             </div>
+            <Modal
+                title="custom Modal"
+                visible={true}
+            // onOk={this.handleOk}
+            // onCancel={this.handleCancel}
+            >
+                <p>自定义Modal</p>
+                <p>自定义Modal</p>
+            </Modal>
         </div>
     )
 }

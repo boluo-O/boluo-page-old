@@ -81,7 +81,8 @@ module.exports = {
 				]
 			},
 			{
-				test: /\.(jpg|jpeg|png|gif|ico|cur|svg|)$/,
+				// test: /\.(jpg|jpeg|png|gif|ico|cur|svg|)$/,
+				test: /\.(jpg|jpeg|png|gif|ico|cur|)$/,
 				type: 'asset',
 				generator: {
 					filename: 'assets/images/[name]_[hash:6][ext]'
@@ -99,6 +100,10 @@ module.exports = {
 					filename: 'assets/fonts/[name]_[hash:6][ext]'
 				},
 
+			},
+			{
+				test: /\.svg/,
+				use: ['@svgr/webpack'],
 			},
 		],
 	},
