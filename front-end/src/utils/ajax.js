@@ -1,20 +1,9 @@
-// const _ajax = (method, url, data, headers={"Content-Type":'application/json'}, callback, async = true) => {
 const _ajax = (method, url, data, headers, callback, async = true) => {
     let r = new XMLHttpRequest()
     r.open(method, url, async)
 
-    // r.setRequestHeader('Content-Type', 'application/json')
-    // if (headers === undefined) {
-    //     r.setRequestHeader('Content-Type', 'application/json')
-    // } else {
-    //     Object.entries(headers).forEach(([k, v]) => {
-    //         r.setRequestHeader(k, v)
-    //     })
-    // }
-
     r.onreadystatechange = () => {
         if (r.readyState === 4) {
-            // console.log('r.response', r.response)
             callback(r.response)
         }
     }
