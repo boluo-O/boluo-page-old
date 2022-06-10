@@ -74,10 +74,27 @@ module.exports = {
 			{
 				test: /\.(le|c)ss$/,
 				use: [
-					isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
-					'css-loader',						 	// 这里需不需加 importLoaders: 1 ？？？
-					'postcss-loader',
-					'less-loader',
+					{
+						loader: 'style-loader',
+					},
+					{
+						loader: 'css-loader',
+					},
+					{
+						loader: 'less-loader',
+						options: {
+							lessOptions: {
+								javascriptEnabled: true,
+							}
+						},
+					},
+					// isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
+					// 'css-loader',						 	// 这里需不需加 importLoaders: 1 ？？？
+					// 'postcss-loader',
+					// 'less-loader',
+					// options: {
+					// 	javascriptEnabled: true
+					// }
 				]
 			},
 			{

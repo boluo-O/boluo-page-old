@@ -7,7 +7,6 @@ const app = express()
 // 静态文件目录
 app.use(express.static(path.join(__dirname, 'public')))
 
-
 // 解决跨域
 app.all("*", function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*")
