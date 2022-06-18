@@ -13,4 +13,8 @@ export default createAPI('todo', {
         method: 'GET',
         path: 'todo/delete',
     },
+    'update': {
+        method: 'POST',
+        path: 'todo/update',
+    },
 })

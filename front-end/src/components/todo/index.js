@@ -1,20 +1,18 @@
 import { useState, useEffect } from 'react'
 
 import { Button, Modal, Input, Form, Select } from 'antd'
+import cls from 'classnames'
 
-// import todo from '@Service/todo'
 import io from '@Service'
 import './style.less'
 const { TextArea } = Input
 
 const Todo = () => {
     const [todoData, setTodoData] = useState([])
-    const [isfinished, setIsfinished] = useState(false)
-    // const [modalVisible, setModalVisible] = useState(true)
     const [modalVisible, setModalVisible] = useState(false)
-    const [form] = Form.useForm();
+    const [form] = Form.useForm()
 
-    const getTodo = async () => {
+    const getTodoList = async () => {
         try {
             const res = await io.todo.all()
             if (res) {
@@ -26,10 +24,27 @@ const Todo = () => {
     }
 
     const deleteTodo = async (id) => {
+        Modal.confirm({
+            content: '确定删除吗？',
+            onOk: async () => {
+                try {
+                    const res = await io.todo.delete({ id: id })
+                    if (res) {
+                        getTodoList()
+                    }
+                } catch (e) {
+                    console.log('error', e)
+                }
+            }
+        })
+
+    }
+
+    const updateTodo = async (params) => {
         try {
-            const res = await io.todo.delete({ id: id })
+            const res = await io.todo.update(params)
             if (res) {
-                getTodo()
+                getTodoList()
             }
         } catch (e) {
             console.log('error', e)
@@ -68,7 +83,7 @@ const Todo = () => {
             const res = await io.todo.add(todoInfo)
             if (res) {
                 setModalVisible(false)
-                getTodo()
+                getTodoList()
                 console.log('res', res)
             }
         } catch (e) {
@@ -78,7 +93,7 @@ const Todo = () => {
     }
 
     useEffect(() => {
-        getTodo()
+        getTodoList()
     }, [])
 
     return (
@@ -94,9 +109,9 @@ const Todo = () => {
                     return (
                         <div className={`todo-item todo-item-${todoName}`} key={index}>
                             {renderTodoType[todoName]}
-                            <div className='content'>{item.content || ''}</div>
+                            <div className={cls('content', { completed: item.completed })}>{item.content || ''}</div>
                             <div className='opreate'>
-                                <div>完成</div>
+                                <div onClick={() => updateTodo({ id: item.id, completed: !item.completed })}>完成</div>
                                 <div onClick={() => deleteTodo(item.id)}>删除</div>
                             </div>
                         </div>
