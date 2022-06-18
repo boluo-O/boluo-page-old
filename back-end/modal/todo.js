@@ -33,8 +33,16 @@ const handleStandardRes = (data) => {
 todo.dataPath = 'db/todo.json'
 
 todo.all = () => {
-    let todoData = readDB(todo.dataPath)
-    let res = handleStandardRes(todoData)
+    let todoList = readDB(todo.dataPath)
+    const _todoList = [
+        ...todoList.filter(item => item.type === '01'),
+        ...todoList.filter(item => item.type === '02'),
+        ...todoList.filter(item => item.type === '03'),
+        ...todoList.filter(item => item.type === '04'),
+        ...todoList.filter(item => item.type === '05'),
+    ]
+
+    let res = handleStandardRes(_todoList)
     return res
 }
 
@@ -76,14 +84,14 @@ todo.update = (todoItem) => {
     return res
 }
 
-todo.delete = (todoId) => {
+todo.delete = (id) => {
     let path = todo.dataPath
     let todoList = readDB(path)
     let res = handleStandardRes('删除成功')
 
     for (let i = 0; i < todoList.length; i++) {
         let todoItem = todoList[i]
-        if (todoItem.id === todoId) {
+        if (todoItem.id === id) {
             todoList.splice(i, 1)
             writeDB(todoList, path)
             return res
@@ -92,6 +100,5 @@ todo.delete = (todoId) => {
     res = handleStandardRes('删除失败 未找到该todo')
     return res
 }
-
 
 module.exports = todo

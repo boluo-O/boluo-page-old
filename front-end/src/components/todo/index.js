@@ -15,8 +15,25 @@ const Todo = () => {
     const [form] = Form.useForm();
 
     const getTodo = async () => {
-        const resData = await io.todo.all()
-        setTodoData(resData)
+        try {
+            const res = await io.todo.all()
+            if (res) {
+                setTodoData(res)
+            }
+        } catch (e) {
+            console.log('error', e)
+        }
+    }
+
+    const deleteTodo = async (id) => {
+        try {
+            const res = await io.todo.delete({ id: id })
+            if (res) {
+                getTodo()
+            }
+        } catch (e) {
+            console.log('error', e)
+        }
     }
 
     const todoTypeEnume = [
@@ -80,6 +97,7 @@ const Todo = () => {
                             <div className='content'>{item.content || ''}</div>
                             <div className='opreate'>
                                 <div>完成</div>
+                                <div onClick={() => deleteTodo(item.id)}>删除</div>
                             </div>
                         </div>
                     )

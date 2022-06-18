@@ -34,7 +34,7 @@ const deleteTodo = {
     path: '/api/todo/delete',
     method: 'get',
     func: (request, response) => {
-        let id = Number(request.query.id)
+        let id = request.query.id
         let res = todo.delete(id)
         response.send(res)
     }

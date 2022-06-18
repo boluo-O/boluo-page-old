@@ -9,8 +9,21 @@ const createAPI = (name, options) => {
         const { method, path } = options[key]
         result[key] = (params) => {
             return new Promise((resolve, reject) => {
-                const url = baseUrl + path
+                let url = baseUrl + path
                 if (method.toLowerCase() === 'get') {
+                    if (params) {
+                        let paramsStr = ''
+                        Object.keys(params).forEach((key, index) => {
+                            if (index === 0) {
+                                paramsStr += `?${key}=${params[key]}`
+                            } else {
+                                paramsStr += `&${key}=${params[key]}`
+                            }
+                        })
+
+                        url = url + paramsStr
+                    }
+
                     ajax.get(url, (res) => {
                         resolve(res)
                     })
