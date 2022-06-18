@@ -14,8 +14,8 @@ const addTodo = {
     path: '/api/todo/add',
     method: 'post',
     func: async (request, response) => {
-        let dataList = await bodyParse(request)
-        let res = todo.add(dataList)
+        let todoInfo = await bodyParse(request)
+        let res = todo.add(todoInfo)
         response.send(res)
     }
 }

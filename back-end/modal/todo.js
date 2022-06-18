@@ -1,8 +1,7 @@
 const { response } = require('express')
 const fs = require('fs')
-
+const { uuid } = require('../utils/utils')
 const todo = {}
-
 const readDB = (dbPath) => {
     let options = {
         encoding: 'utf-8'
@@ -19,7 +18,7 @@ const writeDB = (dataList, dbPath) => {
 
 const handleStandardRes = (data) => {
     let res = {}
-    if (typeof(data) === 'string') {
+    if (typeof (data) === 'string') {
         res.message = data
         res = JSON.stringify(res)
     } else if (Array.isArray(data)) {
@@ -27,7 +26,7 @@ const handleStandardRes = (data) => {
     } else {
         res = JSON.stringify(res)
     }
-    
+
     return res
 }
 
@@ -38,21 +37,19 @@ todo.all = () => {
     let res = handleStandardRes(todoData)
     return res
 }
-// 默认只添加单个对象 push处理
-todo.add = (todoItem) => {
+
+todo.add = (todoInfo) => {
     let res = handleStandardRes('添加成功')
-
-    if (typeof(todoItem) === 'object' && Array.isArray(todoItem)) {
-        res = handleStandardRes('添加失败')
-        return res
-    }
-
     let path = todo.dataPath
     let todoList = readDB(path)
-    let lastIndex = todoList.length - 1
-    let lastId = todoList[lastIndex].id
 
-    todoItem.id = lastId + 1
+    const todoItem = {
+        id: uuid(),
+        type: todoInfo.type,
+        content: todoInfo.content,
+        completed: false,
+        createTime: new Date().getTime(),
+    }
     todoList.push(todoItem)
     writeDB(todoList, path)
     return res

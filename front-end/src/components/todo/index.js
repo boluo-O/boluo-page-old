@@ -44,9 +44,19 @@ const Todo = () => {
         ),
     }
 
-    const onOk = () => {
+    const onOk = async () => {
         const todoInfo = form.getFieldsValue()
         console.log('todoInfo', todoInfo)
+        try {
+            const res = await io.todo.add(todoInfo)
+            if (res) {
+                setModalVisible(false)
+                getTodo()
+                console.log('res', res)
+            }
+        } catch (e) {
+            console.log('e', e)
+        }
 
     }
 
@@ -63,11 +73,11 @@ const Todo = () => {
             </div>
             <div className='todo-list'>
                 {todoData.map((item, index) => {
-                    const todoName = todoTypeEnume.find(v => v.value === item.todoType).name
+                    const todoName = todoTypeEnume.find(v => v.value === item.type).name
                     return (
                         <div className={`todo-item todo-item-${todoName}`} key={index}>
                             {renderTodoType[todoName]}
-                            <div className='content'>{item.todoText || ''}</div>
+                            <div className='content'>{item.content || ''}</div>
                             <div className='opreate'>
                                 <div>完成</div>
                             </div>
