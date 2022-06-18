@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react'
 
 import { Button, Modal, Input, Form, Select } from 'antd'
 
-import todo from '@Service/todo'
+// import todo from '@Service/todo'
+import io from '@Service'
 import './style.less'
 const { TextArea } = Input
 
@@ -13,9 +14,8 @@ const Todo = () => {
     const [modalVisible, setModalVisible] = useState(false)
     const [form] = Form.useForm();
 
-
     const getTodo = async () => {
-        const resData = await todo.all()
+        const resData = await io.todo.all()
         setTodoData(resData)
     }
 
