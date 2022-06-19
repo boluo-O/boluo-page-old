@@ -1,22 +1,23 @@
 import { useState, useEffect } from 'react'
 
-import { Button, Modal, Input, Form, Select } from 'antd'
+import { Modal } from 'antd'
 import cls from 'classnames'
 
+import { TODO_TYPE } from '@Assets/enume'
+import ModalConstructor from './modal-constructor'
 import io from '@Service'
 import './style.less'
-const { TextArea } = Input
 
 const Todo = () => {
-    const [todoData, setTodoData] = useState([])
+    const [todoList, setTodoList] = useState([])
+    const [modalConfig, setModalConfig] = useState({})
     const [modalVisible, setModalVisible] = useState(false)
-    const [form] = Form.useForm()
 
     const getTodoList = async () => {
         try {
             const res = await io.todo.all()
             if (res) {
-                setTodoData(res)
+                setTodoList(res)
             }
         } catch (e) {
             console.log('error', e)
@@ -51,13 +52,16 @@ const Todo = () => {
         }
     }
 
-    const todoTypeEnume = [
-        { name: 'TODO', value: '01' },
-        { name: 'READ', value: '02' },
-        { name: 'STUDY', value: '03' },
-        { name: 'SOLVE', value: '04' },
-        { name: 'IDEA', value: '05' },
-    ]
+    const showAddModal = () => {
+        setModalConfig({ type: 'add' })
+        setModalVisible(true)
+    }
+
+    const showEditModal = (item) => {
+        setModalConfig({ type: 'edit', editTodoInfo: item })
+        setModalVisible(true)
+    }
+
     const renderTodoType = {
         'TODO': (
             <div className='type type-todo'>TODO</div>
@@ -76,36 +80,20 @@ const Todo = () => {
         ),
     }
 
-    const onOk = async () => {
-        const todoInfo = form.getFieldsValue()
-        console.log('todoInfo', todoInfo)
-        try {
-            const res = await io.todo.add(todoInfo)
-            if (res) {
-                setModalVisible(false)
-                getTodoList()
-                console.log('res', res)
-            }
-        } catch (e) {
-            console.log('e', e)
-        }
-
-    }
-
     useEffect(() => {
         getTodoList()
     }, [])
 
     return (
         <div className='todo-box'>
-            <div className='btn-add-todo' onClick={() => setModalVisible(true)}>添加</div>
+            <div className='btn-add-todo' onClick={showAddModal}>添加</div>
             <div className='todo-total-info'>
                 <div className='todo-total-info-item'>已完成 1 个 </div>
                 <div className='todo-total-info-item'>未完成 1 个 </div>
             </div>
             <div className='todo-list'>
-                {todoData.map((item, index) => {
-                    const todoName = todoTypeEnume.find(v => v.value === item.type).name
+                {todoList.map((item, index) => {
+                    const todoName = TODO_TYPE.find(v => v.value === item.type).name
                     return (
                         <div className={`todo-item todo-item-${todoName}`} key={index}>
                             {renderTodoType[todoName]}
@@ -113,29 +101,19 @@ const Todo = () => {
                             <div className='opreate'>
                                 <div onClick={() => updateTodo({ id: item.id, completed: !item.completed })}>完成</div>
                                 <div onClick={() => deleteTodo(item.id)}>删除</div>
+                                <div onClick={() => showEditModal(item)}>编辑</div>
                             </div>
                         </div>
                     )
                 })}
             </div>
-            <Modal
-                title='添加todo'
-                visible={modalVisible}
-                // onOk={() => setModalVisible(false)}
-                onOk={onOk}
-                onCancel={() => setModalVisible(false)}
-            >
-                <div className='todo-constructor-modal'>
-                    <Form form={form} initialValues={{ type: '01' }}>
-                        <Form.Item name='type' label='类型' rules={[{ required: true }]}>
-                            <Select style={{ width: 120 }} options={todoTypeEnume.map((item, index) => ({ label: item.name, value: item.value }))} />
-                        </Form.Item>
-                        <Form.Item name='content' label='内容' rules={[{ required: true }]}>
-                            <TextArea rows={3} />
-                        </Form.Item>
-                    </Form>
-                </div>
-            </Modal>
+            {/* add | edit todo Moodal */}
+            <ModalConstructor
+                modalVisible={modalVisible}
+                setModalVisible={setModalVisible}
+                getTodoList={getTodoList}
+                {...modalConfig}
+            />
         </div>
     )
 }
