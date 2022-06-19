@@ -58,6 +58,14 @@ const Search = () => {
         'Tab': onTab,
         'shiftTab': (e) => onTab(e, true),
         'Enter': onEnter,
+        'F1': (e) => {
+            e.preventDefault()
+            if (document.querySelector('.todo-box').classList.contains('hide')) {
+                document.querySelector('.todo-box').classList.remove('hide')
+            } else {
+                document.querySelector('.todo-box').classList.add('hide')
+            }
+        }
     }
 
     const runKeyDownEvent = (e) => {

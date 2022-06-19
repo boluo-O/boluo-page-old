@@ -62,24 +62,6 @@ const Todo = () => {
         setModalVisible(true)
     }
 
-    const renderTodoType = {
-        'TODO': (
-            <div className='type type-todo'>TODO</div>
-        ),
-        'READ': (
-            <div className='type type-read'>READ</div>
-        ),
-        'STUDY': (
-            <div className='type type-study'>STUDY</div>
-        ),
-        'SOLVE': (
-            <div className='type type-solve'>SOLVE</div>
-        ),
-        'IDEA': (
-            <div className='type type-idea'>IDEA</div>
-        ),
-    }
-
     useEffect(() => {
         getTodoList()
     }, [])
@@ -96,24 +78,26 @@ const Todo = () => {
                     const todoName = TODO_TYPE.find(v => v.value === item.type).name
                     return (
                         <div className={`todo-item todo-item-${todoName}`} key={index}>
-                            {renderTodoType[todoName]}
+                            <div className='type'>{todoName}</div>
                             <div className={cls('content', { completed: item.completed })}>{item.content || ''}</div>
                             <div className='opreate'>
                                 <div onClick={() => updateTodo({ id: item.id, completed: !item.completed })}>完成</div>
-                                <div onClick={() => deleteTodo(item.id)}>删除</div>
                                 <div onClick={() => showEditModal(item)}>编辑</div>
+                                <div onClick={() => deleteTodo(item.id)}>删除</div>
                             </div>
                         </div>
                     )
                 })}
             </div>
             {/* add | edit todo Moodal */}
-            <ModalConstructor
-                modalVisible={modalVisible}
-                setModalVisible={setModalVisible}
-                getTodoList={getTodoList}
-                {...modalConfig}
-            />
+            {
+                modalVisible && <ModalConstructor
+                    modalVisible={modalVisible}
+                    setModalVisible={setModalVisible}
+                    getTodoList={getTodoList}
+                    {...modalConfig}
+                />
+            }
         </div>
     )
 }
